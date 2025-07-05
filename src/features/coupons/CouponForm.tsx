@@ -91,10 +91,15 @@ const CouponForm = ({ initialValues = {}, onSubmit, submitLabel = 'Create Coupon
                   {errors.code.message}
                 </p>
               )}
-            </div>
+            </motion.div>
 
             {/* Discount Type and Value Row */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <motion.div 
+              className="grid grid-cols-1 md:grid-cols-2 gap-6"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.4, delay: 0.5 }}
+            >
               {/* Discount Type */}
               <div className="space-y-2">
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
@@ -143,10 +148,15 @@ const CouponForm = ({ initialValues = {}, onSubmit, submitLabel = 'Create Coupon
                   </p>
                 )}
               </div>
-            </div>
+            </motion.div>
 
             {/* Expiry Date */}
-            <div className="space-y-2">
+            <motion.div 
+              className="space-y-2"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.4, delay: 0.6 }}
+            >
               <label className="block text-sm font-semibold text-gray-700 mb-2">
                 Expiry Date
                 <span className="text-red-500 ml-1">*</span>
@@ -164,10 +174,15 @@ const CouponForm = ({ initialValues = {}, onSubmit, submitLabel = 'Create Coupon
                   {errors.expiry_date.message}
                 </p>
               )}
-            </div>
+            </motion.div>
 
             {/* Status Toggle */}
-            <div className="flex items-center space-x-3 p-4 bg-gray-50 rounded-lg border border-gray-200">
+            <motion.div 
+              className="flex items-center space-x-3 p-4 bg-gray-50 rounded-lg border border-gray-200"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.4, delay: 0.7 }}
+            >
               <input
                 type="checkbox"
                 id="is_active"
@@ -177,10 +192,15 @@ const CouponForm = ({ initialValues = {}, onSubmit, submitLabel = 'Create Coupon
               <label htmlFor="is_active" className="text-sm font-medium text-gray-700 cursor-pointer">
                 Activate this coupon immediately
               </label>
-            </div>
+            </motion.div>
 
             {/* Submit Button */}
-            <div className="pt-4">
+            <motion.div 
+              className="pt-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.8 }}
+            >
               <button
                 type="submit"
                 onClick={handleSubmit(onSubmit)}
@@ -191,7 +211,7 @@ const CouponForm = ({ initialValues = {}, onSubmit, submitLabel = 'Create Coupon
                 </svg>
                 <span>{submitLabel}</span>
               </button>
-            </div>
+            </motion.div>
           </div>
         </motion.div>
 
