@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { getCoupons } from '../features/coupons/hooks';
 import type { Coupon } from '../features/coupons/types';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 type Plan = {
   id: string;
@@ -106,13 +107,8 @@ const SubscriptionPlans = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <motion.div 
-            className="w-16 h-16 border-4 border-purple-600 border-t-transparent rounded-full mx-auto mb-6"
-            animate={{ rotate: 360 }}
-            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-          />
-          <p className="text-xl font-semibold text-gray-700">Loading subscription plans...</p>
-          <p className="text-sm text-gray-500 mt-2">Preparing your business solutions</p>
+          <LoadingSpinner size="lg" text="Loading subscription plans..." />
+          <p className="text-sm text-gray-500 mt-4">Preparing your business solutions</p>
         </motion.div>
       </div>
     );

@@ -4,6 +4,7 @@ import CouponForm from '../features/coupons/CouponForm';
 import { updateCoupon } from '../features/coupons/hooks';
 import type { Coupon } from '../features/coupons/types';
 import api from '../api/axios';
+import LoadingPage from '../components/LoadingPage';
 
 const EditCouponPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -33,7 +34,10 @@ const EditCouponPage = () => {
   const handleUpdate = async (data: Omit<Coupon, 'id' | 'created_at' | 'updated_at'>) => {
     try {
       if (!id) return;
-      await updateCoupon(id, data);
+      await updateCoupon(id, {
+        ...data,
+        discount_value: Number(data.discount_value),
+      });
       alert('Coupon updated!');
       navigate('/coupons');
     } catch {
@@ -41,7 +45,7 @@ const EditCouponPage = () => {
     }
   };
 
-  if (loading) return <div className="p-6">Loading coupon...</div>;
+  if (loading) return <LoadingPage text="Loading coupon..." subtitle="Fetching coupon details..." />;
   if (!coupon) return null;
 
   // Format the date for the HTML date input (YYYY-MM-DD)

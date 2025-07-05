@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Coupon } from './types';
 import { getCoupons, deleteCoupon } from './hooks';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 const CouponList = () => {
   const [coupons, setCoupons] = useState<Coupon[]>([]);
@@ -42,13 +43,8 @@ const CouponList = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <motion.div 
-          className="w-16 h-16 border-4 border-purple-600 border-t-transparent rounded-full mx-auto mb-6"
-          animate={{ rotate: 360 }}
-          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-        />
-        <p className="text-xl font-semibold text-gray-700">Loading your coupon collection...</p>
-        <p className="text-sm text-gray-500 mt-2">Preparing your promotional campaigns</p>
+        <LoadingSpinner size="lg" text="Loading your coupon collection..." />
+        <p className="text-sm text-gray-500 mt-4">Preparing your promotional campaigns</p>
       </motion.div>
     </div>
   );
