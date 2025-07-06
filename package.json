@@ -4,14 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "dev": "concurrently \"vite\" \" cd back && npm run dev\""
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.11",
     "axios": "^1.10.0",
+    "concurrently": "^9.2.0",
     "framer-motion": "^12.23.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",

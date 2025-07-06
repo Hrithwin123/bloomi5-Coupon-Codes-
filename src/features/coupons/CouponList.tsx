@@ -12,14 +12,20 @@ const CouponList = () => {
 
   const fetchCoupons = async () => {
     try {
+      setLoading(true);
       const data = await getCoupons();
       setCoupons(data);
+      setError(null);
     } catch (err) {
-      setError('Failed to load coupons.');
+      setError('Failed to load coupons');
     } finally {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchCoupons();
+  }, []);
 
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this coupon?')) return;
@@ -31,65 +37,64 @@ const CouponList = () => {
     }
   };
 
-  useEffect(() => {
-    fetchCoupons();
-  }, []);
-
-  if (loading) return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-lavender-100 flex items-center justify-center">
-      <motion.div 
-        className="bg-white rounded-2xl shadow-xl p-8 text-center"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <LoadingSpinner size="lg" text="Loading your coupon collection..." />
-        <p className="text-sm text-gray-500 mt-4">Preparing your promotional campaigns</p>
-      </motion.div>
-    </div>
-  );
-
-  if (error) return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-lavender-100 flex items-center justify-center">
-      <motion.div 
-        className="bg-white rounded-2xl shadow-xl p-8 text-center max-w-md"
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5 }}
-      >
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-lavender-100 flex items-center justify-center">
         <motion.div 
-          className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4"
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 0.3, delay: 0.2 }}
+          className="bg-white rounded-2xl shadow-xl p-8 text-center"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
         >
-          <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
-          </svg>
+          <LoadingSpinner size="lg" text="Loading your coupon collection..." />
+          <p className="text-sm text-gray-500 mt-4">Preparing your promotional campaigns</p>
         </motion.div>
-        <motion.p 
-          className="text-red-600 font-semibold"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.3 }}
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-lavender-100 flex items-center justify-center">
+        <motion.div 
+          className="bg-white rounded-2xl shadow-xl p-8 text-center max-w-md"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
         >
-          {error}
-        </motion.p>
-        <motion.p 
-          className="text-gray-500 mt-2"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.4 }}
-        >
-          Don't worry, we're here to help you get back on track.
-        </motion.p>
-      </motion.div>
-    </div>
-  );
+          <motion.div 
+            className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4"
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.3, delay: 0.2 }}
+          >
+            <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+            </svg>
+          </motion.div>
+          <motion.p 
+            className="text-red-600 font-semibold"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.3 }}
+          >
+            {error}
+          </motion.p>
+          <motion.p 
+            className="text-gray-500 mt-2"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.4 }}
+          >
+            Don't worry, we're here to help you get back on track.
+          </motion.p>
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-lavender-100">
-      {/* Header Section */}
       <motion.div 
         className="bg-white shadow-lg border-b-4 border-purple-600"
         initial={{ opacity: 0, y: -20 }}
@@ -121,7 +126,6 @@ const CouponList = () => {
         </div>
       </motion.div>
 
-      {/* Main Content */}
       <div className="max-w-7xl mx-auto px-6 py-8">
         {coupons.length === 0 ? (
           <motion.div 
@@ -160,76 +164,73 @@ const CouponList = () => {
                   whileHover={{ y: -5, scale: 1.02 }}
                   className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100"
                 >
-                                {/* Card Header */}
                   <div className="bg-gradient-to-r from-purple-600 to-purple-700 px-6 py-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                      <div className="bg-white bg-opacity-20 rounded-lg p-2">
-                        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2zM10 8.5a.5.5 0 11-1 0 .5.5 0 011 0zm5 5a.5.5 0 11-1 0 .5.5 0 011 0z" />
-                        </svg>
-                      </div>
-                      <div>
-                        <h3 className="text-lg font-bold text-white">{coupon.code}</h3>
-                        <p className="text-purple-100 text-sm capitalize">{coupon.discount_type} Discount</p>
-                      </div>
-                    </div>
-                    <div className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                      coupon.is_active 
-                        ? 'bg-purple-100 text-purple-700' 
-                        : 'bg-gray-100 text-gray-600'
-                    }`}>
-                      {coupon.is_active ? 'Active' : 'Inactive'}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Card Content */}
-                <div className="p-6">
-                  <div className="space-y-4">
                     <div className="flex items-center justify-between">
-                      <span className="text-gray-600 font-medium">Discount Value</span>
-                      <span className="text-2xl font-bold text-purple-600">
-                        {coupon.discount_value}
-                      </span>
-                    </div>
-                    
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-600 font-medium">Expires</span>
-                      <span className="text-gray-800 font-semibold">
-                        {new Date(coupon.expiry_date).toLocaleDateString('en-US', { 
-                          month: 'short', 
-                          day: 'numeric', 
-                          year: 'numeric' 
-                        })}
-                      </span>
-                    </div>
-
-                    <div className="border-t pt-4">
                       <div className="flex items-center space-x-3">
-                        <Link
-                          to={`/coupons/${coupon.id}/edit`}
-                          className="flex-1 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 text-center text-sm"
-                        >
-                          Edit Campaign
-                        </Link>
-                        <button
-                          className="bg-red-50 hover:bg-red-100 text-red-600 font-semibold py-2 px-4 rounded-lg transition-all duration-200 text-sm border border-red-200"
-                          onClick={() => handleDelete(coupon.id)}
-                        >
-                          Delete
-                        </button>
+                        <div className="bg-purple-800 rounded-full w-10 h-10 flex items-center justify-center shadow-md">
+                          <span className="text-white font-bold text-lg">
+                            {coupon.code ? coupon.code.charAt(0).toUpperCase() : '?'}
+                          </span>
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-bold text-white">{coupon.code}</h3>
+                          <p className="text-purple-100 text-sm capitalize">{coupon.discount_type} Discount</p>
+                        </div>
+                      </div>
+                      <div className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                        coupon.is_active 
+                          ? 'bg-purple-100 text-purple-700' 
+                          : 'bg-gray-100 text-gray-600'
+                      }`}>
+                        {coupon.is_active ? 'Active' : 'Inactive'}
                       </div>
                     </div>
                   </div>
-                </div>
-              </motion.div>
-            ))}
+
+                  <div className="p-6">
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <span className="text-gray-600 font-medium">Discount Value</span>
+                        <span className="text-2xl font-bold text-purple-600">
+                          {coupon.discount_value}
+                        </span>
+                      </div>
+                      
+                      <div className="flex items-center justify-between">
+                        <span className="text-gray-600 font-medium">Expires</span>
+                        <span className="text-gray-800 font-semibold">
+                          {new Date(coupon.expiry_date).toLocaleDateString('en-US', { 
+                            month: 'short', 
+                            day: 'numeric', 
+                            year: 'numeric' 
+                          })}
+                        </span>
+                      </div>
+
+                      <div className="border-t pt-4">
+                        <div className="flex items-center space-x-3">
+                          <Link
+                            to={`/coupons/${coupon.id}/edit`}
+                            className="flex-1 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 text-center text-sm"
+                          >
+                            Edit Campaign
+                          </Link>
+                          <button
+                            className="bg-red-50 hover:bg-red-100 text-red-600 font-semibold py-2 px-4 rounded-lg transition-all duration-200 text-sm border border-red-200"
+                            onClick={() => handleDelete(coupon.id)}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
             </AnimatePresence>
           </div>
         )}
 
-        {/* Success Tips Section */}
         {coupons.length > 0 && (
           <motion.div 
             className="mt-12 bg-white rounded-2xl shadow-lg p-8"
