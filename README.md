@@ -46,7 +46,7 @@ A production-ready, full-stack coupon management application demonstrating moder
 
 ### 1. Clone the Repository
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/Hrithwin123/bloom
 cd bloom
 ```
 
